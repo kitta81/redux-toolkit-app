@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  decrement,
-  increment,
-  incrementByAmount,
-  incrementAsync,
-  selectCount,
-} from './counterSlice';
+import { useSelector } from 'react-redux';
 import styles from './Counter.module.css';
+import { selectCount, useCounter } from './counterSlice';
 
 export function Counter() {
   const count = useSelector(selectCount);
-  const dispatch = useDispatch();
+  const {
+    increment,
+    decrement,
+    incrementByAmount,
+    incrementAsync,
+  } = useCounter();
   const [incrementAmount, setIncrementAmount] = useState('2');
 
   return (
@@ -20,7 +19,7 @@ export function Counter() {
         <button
           className={styles.button}
           aria-label="Increment value"
-          onClick={() => dispatch(increment())}
+          onClick={increment}
         >
           +
         </button>
@@ -28,7 +27,7 @@ export function Counter() {
         <button
           className={styles.button}
           aria-label="Decrement value"
-          onClick={() => dispatch(decrement())}
+          onClick={decrement}
         >
           -
         </button>
@@ -38,19 +37,17 @@ export function Counter() {
           className={styles.textbox}
           aria-label="Set increment amount"
           value={incrementAmount}
-          onChange={e => setIncrementAmount(e.target.value)}
+          onChange={(e) => setIncrementAmount(e.target.value)}
         />
         <button
           className={styles.button}
-          onClick={() =>
-            dispatch(incrementByAmount(Number(incrementAmount) || 0))
-          }
+          onClick={() => incrementByAmount(Number(incrementAmount) || 0)}
         >
           Add Amount
         </button>
         <button
           className={styles.asyncButton}
-          onClick={() => dispatch(incrementAsync(Number(incrementAmount) || 0))}
+          onClick={() => incrementAsync(Number(incrementAmount) || 0)}
         >
           Add Async
         </button>
